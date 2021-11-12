@@ -16,7 +16,7 @@ module.exports = (app, passport) => {
   }
   const authenticatedAdmin = (req, res, next) => {
     if (req.isAuthenticated()) {
-      if (req.user.isAdmin) { return next() } 
+      if (req.user.isAdmin) { return next() }
       return res.redirect('/')
     }
     res.redirect('/signin')
@@ -29,7 +29,7 @@ module.exports = (app, passport) => {
   app.get('/admin/restaurants', authenticatedAdmin, adminController.getRestaurants)
   app.get('/admin/restaurants/create', authenticatedAdmin, adminController.createRestaurant)
   app.post('/admin/restaurants', authenticatedAdmin, upload.single('image'), adminController.postRestaurant) //create a restaurant
-  app.get('/admin/restaurants/:id', authenticatedAdmin, adminController.getRestaurant)
+  app.get('/admin/restaurants/:id', authenticatedAdmin, adminController.getRestaurant) //render detail page
   app.get('/admin/restaurants/:id/edit', authenticatedAdmin, adminController.editRestaurant)
   app.put('/admin/restaurants/:id', authenticatedAdmin, upload.single('image'), adminController.putRestaurant) // edit a restaurant
   app.delete('/admin/restaurants/:id', authenticatedAdmin, adminController.deleteRestaurant)

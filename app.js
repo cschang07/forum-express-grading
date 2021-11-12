@@ -3,10 +3,12 @@ const express = require('express')
 const handlebars = require('express-handlebars')
 const flash = require('connect-flash')
 const methodOverride = require('method-override')
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 const passport = require('./config/passport')
 const port = process.env.PORT || 3000
 const session = require('express-session')
-
 const app = express()
 
 
