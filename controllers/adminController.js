@@ -3,9 +3,31 @@ const fs = require('fs')
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 const Restaurant = db.Restaurant
+const User = db.User
 
 const adminController = {
-  //render admin home page
+//render admin users page
+  getUsers: (req, res) => {
+    return User.findAll({ raw: true }).then(users => {
+      return res.render('admin/users', { users: users })
+    })
+  },
+  //change users' authority
+  toggleAdmin: (req, res) => {
+    return User.findByPk(req.params.id).then((user) => {
+      const { isAdmin, email } = user.toJSON();
+      if (email === "root@example.com") {
+        req.flash("error_messages", "Cannot change this user's authority!");
+        return res.redirect("back");
+      } else {
+        user.update({ isAdmin: !isAdmin }).then((user) => {
+          req.flash("success_messages", "Authority change succeeds.");
+          res.redirect("/admin/users");
+        });
+      }
+    });
+  },
+  //render admin restaurants page
   getRestaurants: (req, res) => {
     return Restaurant.findAll({ raw: true }).then(restaurants => {
       return res.render('admin/restaurants', { restaurants: restaurants })
