@@ -1,5 +1,6 @@
-const restController = require('../controllers/restController.js')
 const adminController = require('../controllers/adminController.js')
+const categoryController = require('../controllers/categoryController.js')
+const restController = require('../controllers/restController.js')
 const userController = require('../controllers/userController.js')
 const passport = require('passport')
 const multer = require('multer')
@@ -37,7 +38,6 @@ module.exports = (app, passport) => {
   app.get('/admin/users', authenticatedAdmin, adminController.getUsers) // render users page
   app.put('/admin/users/:id/toggleAdmin', authenticatedAdmin, adminController.toggleAdmin) //change users' authority
 
-
   app.get('/signup', userController.signUpPage)
   app.post('/signup', userController.signUp)
 
@@ -46,5 +46,5 @@ module.exports = (app, passport) => {
 
   app.get('/logout', userController.logout)
 
-
+  app.get('/admin/categories', authenticatedAdmin, categoryController.getCategories)
 }
