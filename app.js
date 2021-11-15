@@ -14,7 +14,10 @@ const app = express()
 
 
 //Set handlebars as the view engine
-app.engine('handlebars', handlebars({ defaultLayout: 'main' })) //{ defaultLayout: 'main' } could be ignored since it has become default in handlebars v3.1.0 
+app.engine('handlebars', handlebars({
+  defaultLayout: 'main',
+  helpers: require('./config/handlebars-helpers')
+})) //{ defaultLayout: 'main' } could be ignored since it has become default in handlebars v3.1.0
 app.set('view engine', 'handlebars')
 
 app.use(express.urlencoded({ extended: true })) //body-parser
