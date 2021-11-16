@@ -1,5 +1,6 @@
 const adminController = require('../controllers/adminController.js')
 const categoryController = require('../controllers/categoryController.js')
+const commentController = require('../controllers/commentController.js')
 const restController = require('../controllers/restController.js')
 const userController = require('../controllers/userController.js')
 const passport = require('passport')
@@ -55,4 +56,8 @@ module.exports = (app, passport) => {
   app.put('/admin/categories/:id', authenticatedAdmin, categoryController.putCategory)
   //delete category
   app.delete('/admin/categories/:id', authenticatedAdmin, categoryController.deleteCategory)
+  
+//comments
+  app.post('/comments', authenticated, commentController.postComment)
+
 }
