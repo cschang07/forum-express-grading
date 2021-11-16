@@ -52,4 +52,6 @@ module.exports = (app, passport) => {
   //render category edit page/ edit category
   app.get('/admin/categories/:id', authenticatedAdmin, categoryController.getCategories)
   app.put('/admin/categories/:id', authenticatedAdmin, categoryController.putCategory)
+  //delete category
+  app.delete('/admin/categories/:id', authenticatedAdmin, categoryController.deleteCategory)
 }
