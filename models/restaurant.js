@@ -12,7 +12,12 @@ module.exports = (sequelize, DataTypes) => {
         through: models.Favorite,
         foreignKey: 'RestaurantId',
         as: 'FavoritedUsers'
-      })
+      }),
+      Restaurant.belongsToMany(models.User, {
+          through: models.Like,
+          foreignKey: 'RestaurantId',
+          as: 'LikedUsers'
+        })
     }
   };
   Restaurant.init({
