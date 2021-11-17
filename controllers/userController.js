@@ -4,6 +4,8 @@ const User = db.User
 const Favorite = db.Favorite
 const Like = db.Like
 
+const helpers = require('../_helpers')
+
 const userController = {
   signUpPage: (req, res) => {
     return res.render('signup')
@@ -69,7 +71,7 @@ const userController = {
   },
   addLike: (req, res) => {
     return Like.create({
-      UserId: req.user.id,
+      UserId: helpers.getUser(req).id,
       RestaurantId: req.params.restaurantId
     })
       .then((restaurant) => {
@@ -77,19 +79,35 @@ const userController = {
       })
   },
   removeLike: (req, res) => {
-    return Like.findOne({
+    return Like.destroy({
       where: {
-        UserId: req.user.id,
+        UserId: helpers.getUser(req).id,
         RestaurantId: req.params.restaurantId
       }
-    })
-      .then((like) => {
-        like.destroy()
-          .then((restaurant) => {
-            return res.redirect('back')
-          })
-      })
+    }).then(like => res.redirect('back'))
   }
+  // removeLike: (req, res) => {
+  //   return Like.destroy({
+  //     where: {
+  //       UserId: helpers.getUser(req).id,
+  //       RestaurantId: req.params.restaurantId
+  //     }
+  //   }).then((like) => 
+  //     res.redirect('back')
+  //   )
+    // return Like.findOne({
+    //   where: {
+    //     UserId: helpers.getUser(req).id,
+    //     RestaurantId: req.params.restaurantId
+    //   }
+    // })
+    //   .then((like) => {
+    //     like.destroy()
+    //       .then((restaurant) => {
+    //         return res.redirect('back')
+    //       })
+    //   })
+  // }
 }
 
 module.exports = userController
