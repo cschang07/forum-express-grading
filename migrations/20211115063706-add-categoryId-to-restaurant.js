@@ -4,7 +4,7 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.addColumn('Restaurants', 'CategoryId', {
       type: Sequelize.INTEGER,
-      allowNull: false,
+      allowNull: true, //changed to "true" in order to run seed successfully
       references: {
         model: 'Categories',
         key: 'id'

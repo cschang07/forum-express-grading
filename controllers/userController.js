@@ -84,30 +84,11 @@ const userController = {
         UserId: helpers.getUser(req).id,
         RestaurantId: req.params.restaurantId
       }
-    }).then(like => res.redirect('back'))
+    })
+      .then((retaurant) => {
+        return res.redirect('back')
+      })
   }
-  // removeLike: (req, res) => {
-  //   return Like.destroy({
-  //     where: {
-  //       UserId: helpers.getUser(req).id,
-  //       RestaurantId: req.params.restaurantId
-  //     }
-  //   }).then((like) => 
-  //     res.redirect('back')
-  //   )
-    // return Like.findOne({
-    //   where: {
-    //     UserId: helpers.getUser(req).id,
-    //     RestaurantId: req.params.restaurantId
-    //   }
-    // })
-    //   .then((like) => {
-    //     like.destroy()
-    //       .then((restaurant) => {
-    //         return res.redirect('back')
-    //       })
-    //   })
-  // }
 }
 
 module.exports = userController
