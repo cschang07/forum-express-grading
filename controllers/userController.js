@@ -89,6 +89,15 @@ const userController = {
             return res.redirect('back')
           })
       })
+  },
+  getUser: (req, res) => {
+    const userId = req.params.id
+    return User.findByPk(userId)
+      .then(user => 
+        res.render('profile', { user: user.toJSON()
+         })
+      )
+      .catch(err => console.log(err))
   }
 }
 
