@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
   class Restaurant extends Model {
     static associate(models) {
       // define association here
-      // Restaurant.belongsTo(models.Category)
+      Restaurant.belongsTo(models.Category)
       Restaurant.hasMany(models.Comment)
       Restaurant.belongsToMany(models.User, {
         through: models.Favorite,
