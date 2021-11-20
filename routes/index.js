@@ -8,6 +8,7 @@ const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
 
 const helpers = require('../_helpers')
+const { render } = require('../app.js')
 
 module.exports = (app, passport) => {
 
@@ -31,14 +32,20 @@ module.exports = (app, passport) => {
 
   app.get('/admin', authenticatedAdmin, (req, res) => res.redirect('/admin/restaurants'))
   app.get('/admin/restaurants', authenticatedAdmin, adminController.getRestaurants)
+  //create a restaurant
   app.get('/admin/restaurants/create', authenticatedAdmin, adminController.createRestaurant)
-  app.post('/admin/restaurants', authenticatedAdmin, upload.single('image'), adminController.postRestaurant) //create a restaurant
-  app.get('/admin/restaurants/:id', authenticatedAdmin, adminController.getRestaurant) //render detail page
+  app.post('/admin/restaurants', authenticatedAdmin, upload.single('image'), adminController.postRestaurant) 
+  //render detail page
+  app.get('/admin/restaurants/:id', authenticatedAdmin, adminController.getRestaurant) 
+  //edit a restaurant
   app.get('/admin/restaurants/:id/edit', authenticatedAdmin, adminController.editRestaurant)
-  app.put('/admin/restaurants/:id', authenticatedAdmin, upload.single('image'), adminController.putRestaurant) // edit a restaurant
+  app.put('/admin/restaurants/:id', authenticatedAdmin, upload.single('image'), adminController.putRestaurant)
+  //delete a restaurant
   app.delete('/admin/restaurants/:id', authenticatedAdmin, adminController.deleteRestaurant)
-  app.get('/admin/users', authenticatedAdmin, adminController.getUsers) // render users page
-  app.put('/admin/users/:id/toggleAdmin', authenticatedAdmin, adminController.toggleAdmin) //change users' authority
+  //render users page
+  app.get('/admin/users', authenticatedAdmin, adminController.getUsers)
+  //change users' authority
+  app.put('/admin/users/:id/toggleAdmin', authenticatedAdmin, adminController.toggleAdmin) 
 
   app.get('/signup', userController.signUpPage)
   app.post('/signup', userController.signUp)
@@ -71,5 +78,7 @@ module.exports = (app, passport) => {
 
   //profile
   app.get('/users/:id', authenticated, userController.getUser)
+  app.get('/users/:id/edit', authenticated, userController.editUser)
+  app.put('/users/:id', authenticated ,upload.single('image'), userController.putUser)
 
 }

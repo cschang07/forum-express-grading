@@ -1,4 +1,5 @@
 'use strict';
+const { image, datatype } = require('faker');
 const {
   Model
 } = require('sequelize');
@@ -28,7 +29,8 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
-    isAdmin: DataTypes.BOOLEAN
+    isAdmin: DataTypes.BOOLEAN,
+    image: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'User',

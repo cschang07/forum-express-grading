@@ -3,6 +3,10 @@ const db = require('../models')
 const User = db.User
 const Favorite = db.Favorite
 const Like = db.Like
+const fs = require('fs')
+const imgur = require('imgur-node-api')
+const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
+
 
 const userController = {
   signUpPage: (req, res) => {
@@ -93,12 +97,64 @@ const userController = {
   getUser: (req, res) => {
     const userId = req.params.id
     return User.findByPk(userId)
-      .then(user => 
-        res.render('profile', { user: user.toJSON()
-         })
+      .then(user =>
+        res.render('user/profile', {
+          user: user.toJSON()
+        })
       )
       .catch(err => console.log(err))
-  }
+  },
+  //render edit page
+  editUser: (req, res) => {
+    User.findByPk(req.params.id,
+      // {raw: true,nest: true}
+    )
+      .then(user => {
+        return res.render('user/edit', {
+          user: user.toJSON()
+        })
+      })
+  },
+  //edit a user
+  putUser: (req, res) => {
+    if (!req.body.name) {
+      req.flash('error_messages', "name didn't exist")
+      return res.redirect('back')
+    }
+
+    const { file } = req
+    if (file) {
+      imgur.setClientID(IMGUR_CLIENT_ID);
+      imgur.upload(file.path, (err, img) => {
+        return User.findByPk(req.params.id)
+          .then((user) => {
+            user.update({
+              name: req.body.name,
+              email: req.body.email,
+              image: file ? img.data.link : user.image
+            })
+              .then((user) => {
+                req.flash('success_messages', 'user was successfully updated')
+                res.redirect('/restaurants')
+              })
+          })
+      })
+    }
+    else {
+      return User.findByPk(req.params.id)
+        .then((user) => {
+          user.update({
+            name: req.body.name,
+            email: req.body.email,
+            image: req.body.image
+          })
+            .then((user) => {
+              req.flash('success_messages', 'user was successfully updated')
+              res.redirect('/restaurants')
+            })
+        })
+    }
+  },
 }
 
 module.exports = userController
