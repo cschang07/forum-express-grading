@@ -98,7 +98,7 @@ const userController = {
     const userId = req.params.id
     return User.findByPk(userId)
       .then(user =>
-        res.render('user/profile', {
+        res.render('profile', {
           user: user.toJSON()
         })
       )
@@ -106,11 +106,10 @@ const userController = {
   },
   //render edit page
   editUser: (req, res) => {
-    User.findByPk(req.params.id,
-      // {raw: true,nest: true}
+    return User.findByPk(req.params.id,
     )
       .then(user => {
-        return res.render('user/edit', {
+        return res.render('edit', {
           user: user.toJSON()
         })
       })
@@ -134,8 +133,8 @@ const userController = {
               image: file ? img.data.link : user.image
             })
               .then((user) => {
-                req.flash('success_messages', 'user was successfully updated')
-                res.redirect('/restaurants')
+                req.flash('success_messages', '使用者資料編輯成功')
+                res.redirect(`/users/${req.params.id}`)
               })
           })
       })
@@ -149,8 +148,8 @@ const userController = {
             image: req.body.image
           })
             .then((user) => {
-              req.flash('success_messages', 'user was successfully updated')
-              res.redirect('/restaurants')
+              req.flash('success_messages', '使用者資料編輯成功')
+              res.redirect(`/users/${req.params.id}`)
             })
         })
     }
