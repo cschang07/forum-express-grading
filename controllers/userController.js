@@ -1,11 +1,14 @@
 const bcrypt = require('bcryptjs')
 const db = require('../models')
+const Comment = db.Comment
 const User = db.User
 const Favorite = db.Favorite
 const Like = db.Like
 const fs = require('fs')
 const imgur = require('imgur-node-api')
+const Category = require('../models/category')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
+const Restaurant = db.Restaurant
 
 
 const userController = {
@@ -96,12 +99,18 @@ const userController = {
   },
   getUser: (req, res) => {
     const userId = req.params.id
-    return User.findByPk(userId)
-      .then(user =>
-        res.render('profile', {
-          user: user.toJSON()
-        })
-      )
+    return Comment.findAll({
+      raw: true,
+      nest: true,
+      where: { userId: userId },
+      include: [Restaurant],
+    })
+      .then(comments => {
+        return User.findByPk(userId)
+          .then(user => {
+            res.render('profile', { user: user.toJSON(), comments })
+          })
+      })
       .catch(err => console.log(err))
   },
   //render edit page
