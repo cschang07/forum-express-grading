@@ -40,6 +40,6 @@ app.listen(port, () => {
 })
 
 //1. Requires routes 2. Assigns "app" arg, so that the routes could use the object "app" to assign routes. 
-require('./routes')(app, passport)
+require('./routes')(app)
 
 module.exports = app

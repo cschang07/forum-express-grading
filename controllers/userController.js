@@ -11,6 +11,8 @@ const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 const Restaurant = db.Restaurant
 
 
+const helpers = require('../_helpers')
+
 const userController = {
   signUpPage: (req, res) => {
     return res.render('signup')
@@ -76,7 +78,7 @@ const userController = {
   },
   addLike: (req, res) => {
     return Like.create({
-      UserId: req.user.id,
+      UserId: helpers.getUser(req).id,
       RestaurantId: req.params.restaurantId
     })
       .then((restaurant) => {
@@ -84,17 +86,14 @@ const userController = {
       })
   },
   removeLike: (req, res) => {
-    return Like.findOne({
+    return Like.destroy({
       where: {
-        UserId: req.user.id,
+        UserId: helpers.getUser(req).id,
         RestaurantId: req.params.restaurantId
       }
     })
-      .then((like) => {
-        like.destroy()
-          .then((restaurant) => {
-            return res.redirect('back')
-          })
+      .then((retaurant) => {
+        return res.redirect('back')
       })
   },
   getUser: (req, res) => {
