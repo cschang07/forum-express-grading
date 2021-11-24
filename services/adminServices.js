@@ -15,7 +15,18 @@ const adminService = {
     }).then(restaurants => {
       callback({ restaurants: restaurants })
     })
-  }
+  },
+  getRestaurant: (req, res, callback) => {
+    return Restaurant.findByPk(req.params.id, {
+      include: [Category]
+    }).then(restaurant => {
+      // console.log(restaurant)// 加入 console 觀察資料的變化
+      // return res.render('admin/restaurant', {
+      //   restaurant: restaurant.toJSON()
+      // })
+      callback({restaurant: restaurant.toJSON()})
+    })
+  },
 }
 
 module.exports = adminService

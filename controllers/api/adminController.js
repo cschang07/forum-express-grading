@@ -9,5 +9,12 @@ const adminController = {
       return res.json(data)
     })
   },
+  getRestaurant: (req, res) => {
+    return Restaurant.findByPk(req.params.id, {
+      include: [Category]
+    }).then(restaurant => {
+      return res.json({ restaurant: restaurant.toJSON() })
+    })
+  },
 }
 module.exports = adminController
