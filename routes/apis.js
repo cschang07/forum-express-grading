@@ -3,21 +3,33 @@ const router = express.Router()
 // 引入 multer 並設定上傳資料夾 
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
+const passport = require('../config/passport')
+
+//JWT
+const authenticated = passport.authenticate('jwt', { session: false })
+
+const authenticatedAdmin = (req, res, next) => {
+  if (req.user) {
+    if (req.user.isAdmin) { return next() }
+    return res.json({ status: 'error', message: 'permission denied' })
+  } else {
+    return res.json({ status: 'error', message: 'permission denied' })
+  }
+}
 
 const adminController = require('../controllers/api/adminController.js')
 const categoryController = require('../controllers/api/categoryController.js')
 const userController = require('../controllers/api/userController.js')
 
+router.get('/admin/restaurants', authenticated, authenticatedAdmin, adminController.getRestaurants)
+router.get('/admin/restaurant/:id', authenticated, authenticatedAdmin, adminController.getRestaurant)
 
-router.get('/admin/restaurants', adminController.getRestaurants)
-router.get('/admin/restaurant/:id', adminController.getRestaurant)
+router.get('/admin/categories', authenticated, authenticatedAdmin, categoryController.getCategories)
 
-router.get('/admin/categories', categoryController.getCategories)
+router.delete('/admin/restaurants/:id', authenticated, authenticatedAdmin, adminController.deleteRestaurant)
 
-router.delete('/admin/restaurants/:id', adminController.deleteRestaurant)
+router.post('/admin/restaurants', authenticated, authenticatedAdmin, upload.single('image'), adminController.postRestaurant)
 
-router.post('/admin/restaurants', upload.single('image'), adminController.postRestaurant)
-
-router.post('/signin', userController.signIn)
+router.post('/signin', authenticated, authenticatedAdmin, userController.signIn)
 
 module.exports = router
