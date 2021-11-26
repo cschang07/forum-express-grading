@@ -10,6 +10,7 @@ const passport = require('./config/passport')
 const port = process.env.PORT || 3000
 const session = require('express-session')
 const app = express()
+const bodyParser = require('body-parser')
 
 
 
@@ -20,7 +21,9 @@ app.engine('handlebars', handlebars({
 })) //{ defaultLayout: 'main' } could be ignored since it has become default in handlebars v3.1.0
 app.set('view engine', 'handlebars')
 
-app.use(express.urlencoded({ extended: true })) //body-parser
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+
 app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }))
 app.use(passport.initialize())
 app.use(passport.session())
