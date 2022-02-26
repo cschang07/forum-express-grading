@@ -20,9 +20,11 @@ const authenticatedAdmin = (req, res, next) => {
 const adminController = require('../controllers/api/adminController.js')
 const categoryController = require('../controllers/api/categoryController.js')
 const userController = require('../controllers/api/userController.js')
+const restController = require('../controllers/restController')
 
 router.get('/admin/restaurants', authenticated, authenticatedAdmin, adminController.getRestaurants)
 router.get('/admin/restaurant/:id', authenticated, authenticatedAdmin, adminController.getRestaurant)
+router.delete('/admin/delete/restaurant', restController.removeRestuarant)
 
 router.get('/admin/categories', authenticated, authenticatedAdmin, categoryController.getCategories)
 

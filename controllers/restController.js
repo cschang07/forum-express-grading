@@ -92,6 +92,13 @@ const restController = {
         comments: comments
       })
     })
+  },
+  removeRestuarant: (req, res) => {
+    return Restaurant.findByPk(req.body.restaurantId)
+    .then(res => res.destroy())
+    .then(result => {
+      return res.json({ status: 'success', message: 'Restuarant removed successfully.' })
+    })
   }
 }
 
