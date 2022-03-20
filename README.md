@@ -1,53 +1,61 @@
-# README
+# DinerPocket
 
-1. Fork
-2. git clone
+DinerPocket is an app allowing users to search, share, sort, and comment restaurants. Features are expanding.
 
-## 初始化
-### Initialize
-```
-git remote add upstream https://github.com/ALPHACamp/forum-express-grading.git  # 建立上游連線
-npm install
-```
+# Feature
+ 
+With DinerPocket, you can do the followings
 
-### 設定資料庫
-需要與 config/config.json 一致
+- Sign in and sign up
+- Comment, like or add restaurant to favorite
+- Sort restaurants by its categories
+- Follow other users
+- Checkout the users with most followers
+- Checkout the restaurants with most followers
+- Check out details of a restaurant
+- Administrator can create, update and delete restaurants
+- Administrator can create, update and delete categories
+- Administrator can assign users' role either as user/admin
+ 
+## Getting Started (adopting mySQL database)
 
-```
-create database forum;
-```
+1. Clone the repository
+   ```
+   git clone -b master https://github.com/cschang07/forum-express-grading.git
+   ```
+2. Go to the file on your terminal
+   ```
+   cd forum-express-grading
+   ```
+3. Install the kits
+   ```
+   npm install
+   ```
+4. Make an .env file according to the content of the .env.example file you will find in the repo
+5. Go to config/config.json and change username and password under 'development' to match your mySQL data
+6. Go to mySQL workbench
+   ```
+   create database named forum;
+   ```
+7. Set up the data
+   ```
+   npx sequelize db:migrate
+   ```
+8. Set up seed data
+   ```
+   npx sequelize db:seed:all
+   ```
 
-### 執行測試
-```
-npm run test
-```
+10. Then you are good to run the server
+   ```
+   npm run dev
+   ```
+## User login
 
-## 下載作業規格
-以 R01 為例
+both user and administrator seed accounts are provided, shown in the table below:
 
-```
-git checkout -b R01           # 開新分支
-git merge origin/R01-test     # 下載作業規格
-npm run test                  # 直到綠燈全亮
-
-git add .
-git commit -m "...."
-```
-
-## 繳交作業
-
-```
-git push origin R01           # 上傳本地進度
-```
-
-接著改成到 GitHub 來發 PR。
-
-## 共用帳號
-請一律設定下面 2 組帳號以利驗收：
-* 第一組帳號有 admin 權限：
-  * email: root@example.com
-  * password: 12345678
-* 第二組帳號沒有 admin 權限：
-  * email: user1@example.com
-  * password: 12345678
-
+| Role | User account | Password |
+| ----------- | ----------- | ----------- |
+| User | user1@example.com | 12345678 |
+| User | user2@example.com | 12345678 |
+| Admin | root@example.com | 12345678 |
