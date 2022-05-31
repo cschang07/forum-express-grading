@@ -9,17 +9,25 @@ const config = require(__dirname + '/../config/config.json')[env]
 const db = {}
 
 // 資料庫連線
-let sequelize
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config)
-} else {
-  sequelize = new Sequelize(
-    config.database,
-    config.username,
-    config.password,
-    config
-  )
-}
+// let sequelize
+// if (config.use_env_variable) {
+//   sequelize = new Sequelize(process.env[config.use_env_variable], config)
+// } else {
+//   sequelize = new Sequelize(
+//     config.database,
+//     config.username,
+//     config.password,
+//     config
+//   )
+// }
+
+const sequelize = new Sequelize("forum", "root", "1234", {
+  host: `/cloudsql/forum-db`,
+  dialect: 'mysql',
+  dialectOptions: {
+    socketPath: `/cloudsql/forum-db`,
+  },
+});
 
 // 動態引入其他 models
 fs.readdirSync(__dirname)
