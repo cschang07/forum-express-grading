@@ -21,7 +21,7 @@ const db = {}
 //   )
 // }
 
-const sequelize = new Sequelize("forum", "root", "1234", {
+const sequelize = new Sequelize("forum", "root", "e04su3su;6", {
   host: `/cloudsql/forum-db`,
   dialect: 'mysql',
   dialectOptions: {

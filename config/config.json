@@ -3,8 +3,12 @@
     "username": "root",
     "password": "e04su3su;6",
     "database": "forum",
-    "host": "localhost",
-    "dialect": "mysql"
+    "host": "/cloudsql/forum-db",
+    "dialect": "mysql",
+    "dialectOptions": {
+      "socketPath": "/cloudsql/forum-db"
+    }
+
   },
   "production": {
     "use_env_variable": "CLEARDB_DATABASE_URL",
